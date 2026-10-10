@@ -9,7 +9,7 @@ import (
 	"github.com/mylists/movies"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"mtvl/pkg/auth"
+	"github.com/mylists/mtvl/pkg/auth"
 )
 
 func TestStandaloneMoviesServerEndpoints(t *testing.T) {

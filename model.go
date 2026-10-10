@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	"mtvl/pkg/idgen"
+	"github.com/mylists/mtvl/pkg/idgen"
 )
 
 // Movie is a shared catalog item.

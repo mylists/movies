@@ -7,12 +7,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"mtvl/pkg/idgen"
+	"github.com/mylists/mtvl/pkg/idgen"
 
 	"github.com/go-chi/chi/v5"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"mtvl/pkg/auth"
+	"github.com/mylists/mtvl/pkg/auth"
 )
 
 func setupTestDB(t *testing.T) (*gorm.DB, *auth.User) {

@@ -10,9 +10,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"gorm.io/gorm"
-	"mtvl/pkg/auth"
-	"mtvl/pkg/core"
-	"mtvl/pkg/idgen"
+	"github.com/mylists/mtvl/pkg/auth"
+	"github.com/mylists/mtvl/pkg/core"
+	"github.com/mylists/mtvl/pkg/idgen"
 )
 
 // Module implements core.CategoryModule for Movies.
