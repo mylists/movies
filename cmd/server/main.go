@@ -33,21 +33,8 @@ func main() {
 	}
 
 	mod := movies.NewModule(database)
-
-	r := chi.NewRouter()
-	r.Use(middleware.RequestID)
-	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer)
-
 	authProvider := auth.NewJWTAuthProvider(database, os.Getenv("JWT_SECRET"))
-	mod.RegisterRoutes(r, auth.Middleware(authProvider))
-
-	r.Get("/health", func(w http.ResponseWriter, req *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte(`{"status":"ok","category":"movies","endpoint":"/api/v1/movies"}`))
-	})
+	r := buildRouter(mod, authProvider)
 
 	srv := &http.Server{
 		Addr:         ":" + port,
@@ -70,4 +57,22 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_ = srv.Shutdown(ctx)
+}
+
+func buildRouter(mod *movies.Module, authProvider auth.AuthProvider) *chi.Mux {
+	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
+	r.Use(middleware.ClientIPFromRemoteAddr)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+
+	mod.RegisterRoutes(r, auth.Middleware(authProvider))
+
+	r.Get("/health", func(w http.ResponseWriter, req *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte(`{"status":"ok","category":"movies","endpoint":"/api/v1/movies"}`))
+	})
+
+	return r
 }
